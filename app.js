@@ -31,7 +31,7 @@ app.shortcut('set_schedule', async ({ shortcut, ack, client, logger }) => {
             type: "header",
             text: {
               type: "plain_text",
-              text: "When are you at home this week?",
+              text: "When are you working at home this week?",
               emoji: true,
             },
           },
