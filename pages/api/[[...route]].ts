@@ -9,7 +9,7 @@ export const receiver = new NextConnectReceiver({
   });
 
   const app = new App({
-    token: process.env.SLACK_BOT_TOKEN as string,
+    token: process.env.SLACK_WEB_TOKEN as string,
     signingSecret: process.env.SLACK_SIGNING_SECRET as string,
     appToken: process.env.SLACK_APP_TOKEN as string,
     receiver: receiver,
