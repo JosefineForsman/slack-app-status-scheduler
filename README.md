@@ -18,5 +18,7 @@ Beekly is a Slack application built with Next.js and deployed on Vercel. It feat
 - Cron-Jobs.org
 
 ## Important Information
-To make the interactions work well with Vercel and the Slack app, I used this article to understand how to work around and use a Vercel URL with a Slack app to handle interactions by Ali BaderEddin.
+To make the interactions work well with Vercel and the Slack app, I used this article:
+https://medium.com/@alibadereddin/building-the-backend-for-a-slack-app-with-nextjs-and-vercel-e1503b938e6b
+to understand how to work around and use a Vercel URL with a Slack app to handle interactions by Ali BaderEddin.
 
