@@ -1,9 +1,14 @@
 import { getAllChannelMembers } from './api/getAllMembersFromChannel';
+import { useState, useEffect } from 'react';
 import { User, AllUsersSchedule, UserStatus } from '../app/types';
+import { getLocalTime } from '../utils/getLocalTime';
 import { getUsersByStatus } from '../utils/filterStatus';
-import { Box, Grid, Container } from '@mui/material';
+import { Box, Grid, Container, Typography } from '@mui/material';
 import { CssBaseline } from '@mui/material';
 import DaySection from '../app/components/DaySection';
+import DateTimeDisplay from '@/app/components/DisplayTime';
+import { getCurrentWeekNumber } from '@/utils/getWeekNumber';
+import { getWeekDates } from '@/utils/getWeekDays';
 
 export async function getStaticProps() {
   const [getUserProfileInfo] = await Promise.all([getAllChannelMembers()]);
@@ -17,11 +22,29 @@ export async function getStaticProps() {
 }
 
 const LandingPage = ({ allMembers }: { allMembers: User[] }) => {
+  const [currentTime, setCurrentTime] = useState<string | null>(null);
+  const currentWeekNumber = getCurrentWeekNumber();
+  const weekDates = getWeekDates()
     
   let currentDay = new Date().toLocaleString("en-US", { weekday: "long" });
   const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+
+  useEffect(() => {
+    const timeIntervalId = setInterval(() => {
+      setCurrentTime(getLocalTime());
+    }, 1000);
+
+    const reloadTimeoutId = setTimeout(() => {
+      window.location.reload();
+    }, 10 * 60 * 1000);
+
+    return () => {
+      clearInterval(timeIntervalId);
+      clearTimeout(reloadTimeoutId);
+    };
+  }, []);
   
-  const renderDay = (day: keyof AllUsersSchedule) => {
+  const renderDay = (day: keyof AllUsersSchedule, index : number) => {
     const isToday = day === currentDay;
 
     let inOfficeUsers: any = [];
@@ -38,6 +61,7 @@ const LandingPage = ({ allMembers }: { allMembers: User[] }) => {
       <DaySection
         key={day.toString()}
         day={day.toString()}
+        date={weekDates[index]}
         isToday={isToday}
         inOfficeUsers={inOfficeUsers}
         workingFromHomeUsers={workingFromHomeUsers}
@@ -65,6 +89,7 @@ const LandingPage = ({ allMembers }: { allMembers: User[] }) => {
             alignItems: "center",
             justifyContent: "space-between",
             width: "100%",
+            marginTop: "20px",
           }}
         >
           <Box
@@ -73,6 +98,10 @@ const LandingPage = ({ allMembers }: { allMembers: User[] }) => {
               flexDirection: "column",
             }}
           >
+            <DateTimeDisplay currentTime={currentTime} />
+          </Box>
+          <Box>
+            <Typography sx={{color: "#ffffff", fontSize: "30px", marginRight:"40px"}}>Week {currentWeekNumber}</Typography>
           </Box>
         </Box>
         <Grid
@@ -84,7 +113,7 @@ const LandingPage = ({ allMembers }: { allMembers: User[] }) => {
             padding: "20px",
           }}
         >
-          {daysOfWeek.map((day) => renderDay(day))}
+          {daysOfWeek.map((day, index) => renderDay(day, index ))}
         </Grid>
       </Container>
     </Box>
