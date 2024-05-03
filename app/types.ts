@@ -47,6 +47,7 @@ export type PersonalSchedule = {
     inOfficeUsers: any[];
     workingFromHomeUsers: any[];
     unavailableUsers: any[];
+    date: Date;
   };
   export type UserProps = {
     user: User;
@@ -58,4 +59,7 @@ export type PersonalSchedule = {
     isCurrentDay?: boolean;
     flexGrowValue: number;
     flexBasisValue: string;
+  };
+  export type DateTimeDisplayProps = {
+    currentTime: string | null;
   };

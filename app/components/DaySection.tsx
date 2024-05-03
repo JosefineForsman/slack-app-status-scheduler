@@ -10,6 +10,7 @@ const DaySection = ({
   inOfficeUsers,
   workingFromHomeUsers,
   unavailableUsers,
+  date
 }: DaySectionProps) => {
   return (
     <Grid item xs={12} sm={6} md={4} lg={2.33}>
@@ -22,6 +23,7 @@ const DaySection = ({
           ? day.charAt(0).toUpperCase() + day.slice(1)
           : day}
       </Typography>
+      <Typography variant="h4" sx={{color:"#ffffff", fontSize:"18px", marginBottom:"10px"}}>{date.toLocaleDateString('sv-SE', { day: 'numeric', month: 'numeric' })}</Typography>
       <Grid sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
         <UserStatusSection
           title={`In Office (${inOfficeUsers.length})`}
